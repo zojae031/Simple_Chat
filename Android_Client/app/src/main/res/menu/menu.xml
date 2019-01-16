@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".View.MainActivity">
+
+<item android:id="@+id/more"
+    android:title="LOGOUT"
+    app:showAsAction="always"
+    android:icon="@drawable/ic_action_name"
+    >
+    <menu >
+        <item android:id="@+id/logout" android:title="로그아웃"></item>
+        <item android:id="@+id/ex" android:title="더미"></item>
+    </menu>
+</item>
+
+
+
+</menu>
