@@ -3,19 +3,19 @@ package DataBase;
 import com.google.gson.JsonObject;
 
 public class SelectState {
-	SelectState instance;
+	static SelectState instance;
 	private SelectState() {
 		
 	}
 	
-	public SelectState getInstance() {
+	public static SelectState getInstance() {
 		if(instance==null) {
 			instance = new SelectState();
 		}
 		return instance;
 	}
 	
-	public IDBConnector getState(JsonObject  data) {
+	public DataBaseConnector getState(JsonObject  data) {
 		int key = Integer.parseInt(data.get("key").toString());
 		switch(key) {
 		case Login.LOGIN : 

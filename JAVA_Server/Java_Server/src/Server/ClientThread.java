@@ -10,6 +10,7 @@ import java.net.Socket;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import DataBase.DataBaseConnector;
 import DataBase.IDBConnector;
 import DataBase.SelectState;
 
@@ -18,8 +19,8 @@ public class ClientThread extends Thread{
 	BufferedReader reader;
 	PrintWriter writer;
 	
-	IDBConnector db;
-	SelectState selectState;
+	DataBaseConnector db;
+	
 	
 	public ClientThread(Socket client) {
 		this.client = client;
@@ -32,7 +33,7 @@ public class ClientThread extends Thread{
 			reader = new BufferedReader(new InputStreamReader(client.getInputStream(),"UTF-8"));
 			JsonParser parser =new JsonParser();
 			JsonObject data = (JsonObject)parser.parse(reader.readLine());
-			db = selectState.getInstance().getState(data); //Json 데이터 key 를 읽어서 해당하는 작업 반환 (State pattern)
+			db = SelectState.getInstance().getState(data); //JSon 데이터 key 를 읽어서 해당하는 작업 반환 (State pattern)
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream(),"UTF-8")),true);
 			System.out.println(data);
 			writer.println(db.excute(data));//다형성 구현
