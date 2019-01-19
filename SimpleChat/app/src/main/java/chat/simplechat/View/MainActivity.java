@@ -1,7 +1,9 @@
-package chat.simplechat;
+package chat.simplechat.View;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import chat.simplechat.R;
 
 public class MainActivity extends AppCompatActivity {
 

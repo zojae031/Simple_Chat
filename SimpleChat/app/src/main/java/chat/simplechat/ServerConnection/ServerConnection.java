@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.concurrent.TimeoutException;
 
 public abstract class  ServerConnection extends Thread{
-    private static final String ip = "192.168.0.247";
+    private static final String ip = "172.30.1.17";
     private static final int port = 5050;
 
     Socket socket;
@@ -28,7 +27,7 @@ public abstract class  ServerConnection extends Thread{
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             send();
             receive();
-            socket.close();
+            closeSocket();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,4 +35,9 @@ public abstract class  ServerConnection extends Thread{
     }
     public abstract void send() throws IOException;
     public abstract void receive() throws IOException;
+    public void closeSocket() throws IOException {
+        writer.close();
+        reader.close();
+        socket.close();
+    }
 }

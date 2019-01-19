@@ -11,7 +11,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import DataBase.DataBaseConnector;
-import DataBase.IDBConnector;
 import DataBase.SelectState;
 
 public class ClientThread extends Thread{

@@ -1,10 +1,14 @@
 package chat.simplechat.ServerConnection;
 
+import android.os.Handler;
+import android.os.Message;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 public class Login extends ServerConnection {
     public static final int LOGIN = 100;
@@ -13,21 +17,17 @@ public class Login extends ServerConnection {
 
     JSONObject jsonObject;
 
-    LoginCallback loginCallback;
+
+    Handler handler;
+    Message message;
 
 
-    public interface LoginCallback {
-        public void error();
-
-        public void login();
-    }
-
-    public void setLoginCallback(LoginCallback loginCallback) {
-        this.loginCallback = loginCallback;
-    }
 
 
-    public Login(String id, String pw) {
+
+    public Login(String id, String pw,Handler handler) {
+        this.handler = handler;
+        message= handler.obtainMessage();
         jsonObject = new JSONObject();
         try {
             jsonObject.put("key", LOGIN);
@@ -49,7 +49,6 @@ public class Login extends ServerConnection {
     public void send() throws IOException {
         PrintWriter out = new PrintWriter(writer, true);
         out.println(jsonObject);
-
     }
 
 
@@ -58,17 +57,8 @@ public class Login extends ServerConnection {
         String result;
 
         result = reader.readLine();
-        switch (Integer.parseInt(result)) {
-            case LOGIN_OK:
-                loginCallback.login();
-                break;
-            case LOGIN_FAIL:
-                loginCallback.error();
-                break;
-        }
-        writer.close();
-        reader.close();
-
+        message.obj =result;
+        handler.sendMessage(message);
 
     }
 }
