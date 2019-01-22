@@ -1,14 +1,16 @@
 package chat.simplechat.Presenter;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import chat.simplechat.MVP_login;
+import chat.simplechat.MVPInterface.MVP_login;
 import chat.simplechat.Model.LoginModel;
-import chat.simplechat.ServerConnection.Login;
+import chat.simplechat.Model.ServerConnection.ServerClient;
 
 public class LoginPresenter implements MVP_login.Presenter {
     MVP_login.View view;
@@ -23,10 +25,14 @@ public class LoginPresenter implements MVP_login.Presenter {
             super.handleMessage(msg);
             String result = (String) msg.obj;
             switch (Integer.parseInt(result)) {
-                case Login.LOGIN_OK:
-                    view.login();
+                case ServerClient.LOGIN_OK:
+                    Intent intent = new Intent();
+                    Bundle bundle = msg.getData();
+                    intent.putExtra("id",bundle.get("id").toString());
+                    view.login(intent);
                     break;
-                case Login.LOGIN_FAIL:
+                case ServerClient.LOGIN_FAIL:
+                    ServerClient.getInstance().userLogout();
                     view.error();
                     break;
             }
@@ -36,6 +42,7 @@ public class LoginPresenter implements MVP_login.Presenter {
         this.view = view;
         model = new LoginModel();
         handler = new LoginHandler();
+        model.connectServer(); //서버 통신
     }
 
 
@@ -45,8 +52,9 @@ public class LoginPresenter implements MVP_login.Presenter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.newServerThread(id.getText().toString(),pw.getText().toString(),handler); //로그인 스레드 생성
-                model.connectServer(); //서버 통신
+
+                model.clientLogin(id.getText().toString(),pw.getText().toString(),handler); //로그인 스레드 생성
+
             }
         });
     }

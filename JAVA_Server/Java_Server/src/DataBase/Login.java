@@ -19,7 +19,9 @@ public class Login extends DataBaseConnector  {
 
 	public Object excute(JsonObject data) throws SQLException {
 		super.connect();
-		int returnValue = 0;
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("key", LOGIN);
+		
 		stat = conn.prepareStatement(sql);
 		String id = data.get("id").toString().replace("\"", "");
 		String password = data.get("password").toString().replace("\"", "");
@@ -27,7 +29,6 @@ public class Login extends DataBaseConnector  {
 		stat.setString(1, id);
 		stat.setString(2, password);
 		stat.executeUpdate();
-		stat.executeQuery();
 		res = stat.executeQuery();
 
 		user = new UserHolder();
@@ -39,12 +40,13 @@ public class Login extends DataBaseConnector  {
 		}
 		
 		if (id.equals(user.id)&&user.flag == 0) {// 로그인 x
-			returnValue = LOGIN_OK;
+			jsonObject.addProperty("value", LOGIN_OK);
+			
 		} else {// 로그인 o
-			returnValue = LOGIN_FAIL;
+			jsonObject.addProperty("value", LOGIN_FAIL);
 		}
 		super.closeConnection();
-		return returnValue;
+		return jsonObject;
 	}
 
 	private class UserHolder {

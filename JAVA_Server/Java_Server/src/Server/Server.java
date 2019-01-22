@@ -5,12 +5,14 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class Server {
 	private static final String ip = "192.168.0.247";
-	private static final int port=5050;
+	private static final int port = 5050;
 	ServerSocket socket;
+
 	
-	
+
 	public Server() {
 		try {
 			socket = new ServerSocket(port);
@@ -19,19 +21,21 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	public void open() {
 		try {
 			String address = InetAddress.getLocalHost().getHostAddress();
-			System.out.println("IP : "+address);
+			System.out.println("IP : " + address);
 			System.out.println("Server Open...");
-			while(true) {
+			while (true) {
 				Socket client = socket.accept();
-				ClientThread thread = new ClientThread(client);
+				ChatThread thread = new ChatThread(client);
+				Clients.getInstance().addThread(thread);
 				thread.start();
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

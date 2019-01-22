@@ -2,20 +2,24 @@ package chat.simplechat.Model;
 
 import android.os.Handler;
 
-import chat.simplechat.MVP_login;
-import chat.simplechat.ServerConnection.Login;
+import chat.simplechat.MVPInterface.MVP_login;
+import chat.simplechat.Model.ServerConnection.ServerClient;
+import chat.simplechat.Model.ServerConnection.ServerLogin;
 
 public class LoginModel implements MVP_login.Model {
-    Login login;
+
 
     @Override
     public void connectServer() {
-        login.start();
+
+
+            ServerClient.getInstance().start();
+
     }
 
 
     @Override
-    public void newServerThread(String id, String pw, Handler handler) {
-        login = new Login(id,pw,handler);
+    public void clientLogin(String id, String pw, Handler handler) {
+        ServerClient.getInstance().login(id,pw,handler);
     }
 }

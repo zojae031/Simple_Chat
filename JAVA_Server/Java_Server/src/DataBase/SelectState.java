@@ -20,7 +20,12 @@ public class SelectState {
 		switch(key) {
 		case Login.LOGIN : 
 			return new Login();
+		case InsertText.SEND :
+			return new InsertText();
+			
 		}
+		
+			
 		return null;
 	}
 }

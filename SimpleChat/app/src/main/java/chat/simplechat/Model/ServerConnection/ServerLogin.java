@@ -1,5 +1,6 @@
-package chat.simplechat.ServerConnection;
+package chat.simplechat.Model.ServerConnection;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class Login extends ServerConnection {
+public class ServerLogin extends ServerConnection {
     public static final int LOGIN = 100;
     public static final int LOGIN_OK = 101;
     public static final int LOGIN_FAIL = 102;
@@ -25,11 +26,15 @@ public class Login extends ServerConnection {
 
 
 
-    public Login(String id, String pw,Handler handler) {
+    public ServerLogin(String id, String pw, Handler handler) {
         this.handler = handler;
         message= handler.obtainMessage();
         jsonObject = new JSONObject();
         try {
+            Bundle bundle = new Bundle();
+            bundle.putString("id",id);
+            message.setData(bundle);
+
             jsonObject.put("key", LOGIN);
             jsonObject.put("id", id);
             jsonObject.put("password", pw);
@@ -43,6 +48,7 @@ public class Login extends ServerConnection {
     public void run() {
 
         super.run();
+
     }
 
     @Override

@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import chat.simplechat.MVP_login;
+import chat.simplechat.MVPInterface.MVP_login;
 import chat.simplechat.Presenter.LoginPresenter;
 import chat.simplechat.R;
 
@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity implements MVP_login.View  
     }
 
     @Override
-    public void login() {
-        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+    public void login(Intent intent) {
+        intent.setClass(this,MainActivity.class);
         startActivity(intent);
-    }
+}
 }

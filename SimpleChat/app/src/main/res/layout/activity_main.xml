@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context=".View.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="368dp"
         android:layout_height="444dp"
         android:layout_marginStart="8dp"

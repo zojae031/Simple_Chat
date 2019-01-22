@@ -1,12 +1,13 @@
-package chat.simplechat;
+package chat.simplechat.MVPInterface;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 
 public interface MVP_login {
     interface View{
-        void login();
+        void login(Intent intent);
         void error();
     }
     interface Presenter{
@@ -14,6 +15,6 @@ public interface MVP_login {
     }
     interface Model{
         void connectServer();
-        void newServerThread(String id, String pw, Handler handler);
+        void clientLogin(String id, String pw, Handler handler);
     }
 }
