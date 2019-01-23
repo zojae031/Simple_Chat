@@ -35,20 +35,26 @@ public class ChatThread extends Thread {
 			writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream(), "UTF-8")),
 					true);
 			JsonParser parser = new JsonParser();
-			while (true) {
-				
+			while (true) {// flag로 바꾸어 로그아웃되면 스레드 종료되도록 만들어야 함
+
 				JsonObject data = (JsonObject) parser.parse(reader.readLine());
 				int key = data.get("key").getAsInt();
+
+				db = SelectState.getInstance().getState(data); // JSon 데이터 key 를 읽어서 해당하는 작업 반환 (State pattern)
+				Object ResultData = db.excute(data);
 				
-				if(key==Login.LOGIN || key==InsertText.SEND) {//데이터베이스에 접근하는 key값이라면
-					db = SelectState.getInstance().getState(data); // JSon 데이터 key 를 읽어서 해당하는 작업 반환 (State pattern)
-					writer.println(db.excute(data));// 다형성 구현
+				switch(key) {
+				case Login.LOGIN :
+					writer.println(ResultData);// 로그인 결과
+					break;
+				case InsertText.SEND :
+					Clients.getInstance().sendClients(data); //채팅 결과 브로드캐스팅
+					break;
 				}
-				else {
-					//db에 접근하지 않을 떄에 관한 작업
-				}
+				
+
 				System.out.println(data);
-				
+
 			}
 
 		} catch (Exception e) {

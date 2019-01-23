@@ -46,7 +46,8 @@ public class ServerClient extends ServerConnection {
 
     public void setMainHandler(Handler handler) {
         mainHandler = handler;
-        mainMessage = mainHandler.obtainMessage();
+
+//        mainMessage = mainHandler.obtainMessage();
     }
 
     public void login(String id, String pw, Handler handler) {
@@ -57,7 +58,6 @@ public class ServerClient extends ServerConnection {
             Bundle bundle = new Bundle();
             bundle.putString("id", id);
             loginMessage.setData(bundle);
-
             jsonObject.put("key", LOGIN);
             jsonObject.put("id", id);
             jsonObject.put("password", pw);
@@ -126,8 +126,10 @@ public class ServerClient extends ServerConnection {
                             Bundle bundle = new Bundle();
                             bundle.putString("id", data.get("id").toString());
                             bundle.putString("text", data.get("text").toString());
+                            mainMessage = mainHandler.obtainMessage();
                             mainMessage.setData(bundle);
                             mainHandler.sendMessage(mainMessage);
+
                             break;
                     }
 

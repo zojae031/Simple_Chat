@@ -8,12 +8,13 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public abstract class ServerConnection extends Thread {
-    private static final String ip = "192.168.0.21";
+    private static final String ip = "192.168.0.10";
     private static final int port = 5050;
 
     static Socket socket;
     static BufferedWriter writer;
     static BufferedReader reader;
+
 
     public ServerConnection() {
         Thread connect = new Thread(new Runnable() {
@@ -22,6 +23,7 @@ public abstract class ServerConnection extends Thread {
 
                 try {
                     socket = new Socket(ip, port);
+                    socket.setSoTimeout(5000);
                     writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 } catch (IOException e) {
@@ -33,14 +35,13 @@ public abstract class ServerConnection extends Thread {
 
         try {
             connect.start();
-            connect.join();
+            connect.join(5000);
         } catch (InterruptedException e) {
+
             e.printStackTrace();
         }
 
     }
-
-
 
     @Override
     public void run() {

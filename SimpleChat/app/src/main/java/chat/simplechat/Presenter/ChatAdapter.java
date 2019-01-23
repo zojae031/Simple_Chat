@@ -22,11 +22,11 @@ class ChatAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ViewHolder viewHolder;
 
-    public ChatAdapter(Context context,int layout, ArrayList<ChatVO> list ) {
+    public ChatAdapter(Context context, int layout, ArrayList<ChatVO> list) {
         this.context = context;
         this.layout = layout;
-        this.chatData =list;
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.chatData = list;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -47,6 +47,7 @@ class ChatAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
+
         viewHolder.tv_text.setText(chatData.get(position).getText());
         viewHolder.tv_id.setText(chatData.get(position).getId());
 
@@ -65,7 +66,7 @@ class ChatAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         TextView tv_id;
         TextView tv_text;
     }

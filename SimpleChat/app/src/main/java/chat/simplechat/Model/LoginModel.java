@@ -4,22 +4,18 @@ import android.os.Handler;
 
 import chat.simplechat.MVPInterface.MVP_login;
 import chat.simplechat.Model.ServerConnection.ServerClient;
-import chat.simplechat.Model.ServerConnection.ServerLogin;
 
 public class LoginModel implements MVP_login.Model {
 
 
     @Override
     public void connectServer() {
-
-
-            ServerClient.getInstance().start();
-
+        ServerClient.getInstance().start();
     }
 
 
     @Override
     public void clientLogin(String id, String pw, Handler handler) {
-        ServerClient.getInstance().login(id,pw,handler);
+        ServerClient.getInstance().login(id, pw, handler);
     }
 }

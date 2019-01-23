@@ -1,22 +1,19 @@
 package chat.simplechat.MVPInterface;
 
-import android.os.Handler;
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import chat.simplechat.Model.ChatVO;
-
 public interface MVP_Main {
     interface View{
-        void drawUserText();
-        void drawTargetText();
+        void drawUserText(Bundle bundle);
+        void drawTargetText(Bundle bundle);
         void clearEditText();
     }
     interface Presenter{
-        void setAdapter(ListView listView, ArrayList<ChatVO> list);
+        void setAdapter(ListView listView);
+        void notifyDataSetChanged();
         void setSendButton(Button button, final EditText editText);
         void logout();
     }

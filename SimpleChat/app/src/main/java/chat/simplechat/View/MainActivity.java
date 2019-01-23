@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements MVP_Main.View{
     ListView listView;
     EditText editText;
 
-    ArrayList<ChatVO> list= new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +36,19 @@ public class MainActivity extends AppCompatActivity implements MVP_Main.View{
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.send_btn);
 
-        presenter.setAdapter(listView,list);
+        presenter.setAdapter(listView);
         presenter.setSendButton(button,editText);
     }
 
 
     @Override
-    public void drawUserText() {
-
+    public void drawUserText(Bundle bundle) {
+        presenter.notifyDataSetChanged();
     }
 
     @Override
-    public void drawTargetText() {
-
+    public void drawTargetText(Bundle bundle) {
+        presenter.notifyDataSetChanged();
     }
 
     @Override

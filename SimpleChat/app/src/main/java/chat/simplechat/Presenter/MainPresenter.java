@@ -24,12 +24,17 @@ public class MainPresenter implements MVP_Main.Presenter {
 
     String userId="";
     MainHandler handler;
+    ChatAdapter adapter;
+    ArrayList<ChatVO> list= new ArrayList<>();
+
     public MainPresenter(MVP_Main.View view,String id) {
         this.view = view;
         this.userId =id;
         handler = new MainHandler();
         model = new MainModel();
         ServerClient.getInstance().setMainHandler(handler);
+
+
     }
     private class MainHandler extends Handler{
         @Override
@@ -40,20 +45,30 @@ public class MainPresenter implements MVP_Main.Presenter {
             String text = (String)bundle.get("text");
             if(id.replace("\"","").equals(userId)){
                 Log.e("사용자 결과값",text);
-                view.drawUserText();
+                list.add(new ChatVO(id,text));
+                adapter.notifyDataSetChanged();
+//                view.drawUserText(bundle);
             }
             else{
                 Log.e("상대방 결과값",text);
-                view.drawTargetText();
+                list.add(new ChatVO(id,text));
+                adapter.notifyDataSetChanged();
+//                view.drawTargetText(bundle);
             }
+
 
             //TODO 아이디 식별확인 하여 view.drawUserText() or view.drawTargetText();
         }
     }
     @Override
-    public void setAdapter(ListView listView,ArrayList<ChatVO> list) {
-        ChatAdapter adapter = new ChatAdapter((Context)view, R.layout.chat_message,list);
+    public void setAdapter(ListView listView) {
+        adapter = new ChatAdapter((Context)view, R.layout.chat_message,list);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -61,8 +76,12 @@ public class MainPresenter implements MVP_Main.Presenter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 model.sendMessage(editText.getText().toString(),userId);
                 view.clearEditText();
+
+
             }
         });
     }
