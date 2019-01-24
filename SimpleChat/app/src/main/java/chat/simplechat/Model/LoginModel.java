@@ -10,7 +10,7 @@ public class LoginModel implements MVP_login.Model {
 
     @Override
     public void connectServer() {
-        ServerClient.getInstance().start();
+        ServerClient.getInstance().connectServer();
     }
 
 

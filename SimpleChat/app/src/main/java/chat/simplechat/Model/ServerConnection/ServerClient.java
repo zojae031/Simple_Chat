@@ -22,6 +22,8 @@ public class ServerClient extends ServerConnection {
     public static final int SEND = 200;
 
     public static final int BROAD_CAST = 300;
+
+    public static final int LOGOUT = 400;
     JSONObject jsonObject;
 
     private static ServerClient instance = null;
@@ -42,12 +44,9 @@ public class ServerClient extends ServerConnection {
     Message loginMessage;
     Message mainMessage;
 
-    private boolean status = true;
-
+    Thread broadCastThread;
     public void setMainHandler(Handler handler) {
         mainHandler = handler;
-
-//        mainMessage = mainHandler.obtainMessage();
     }
 
     public void login(String id, String pw, Handler handler) {
@@ -70,10 +69,7 @@ public class ServerClient extends ServerConnection {
 
     }
 
-    @Override
-    public void run() {
-        super.run();
-    }
+
 
     public void sendMessage(String id, String msg) {
         jsonObject = new JSONObject();
@@ -89,8 +85,19 @@ public class ServerClient extends ServerConnection {
         }
     }
 
-    public void userLogout() {
-        status = false;
+    public void userLogout(String id) {
+        jsonObject = new JSONObject();
+        try {
+            jsonObject.put("key", LOGOUT);
+            jsonObject.put("id", id);
+            send();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        broadCastThread.interrupt();
+
 
     }
 
@@ -106,11 +113,25 @@ public class ServerClient extends ServerConnection {
 
     }
 
+    public void broadCastMessage(){
+        broadCastThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    receive();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        broadCastThread.start();
+    }
+
     @Override
     public void receive() throws IOException {
         String msg;
 
-        while (status) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 msg = reader.readLine();
                 if (!msg.equals("")) {//전달 데이터 분류하기
@@ -129,7 +150,6 @@ public class ServerClient extends ServerConnection {
                             mainMessage = mainHandler.obtainMessage();
                             mainMessage.setData(bundle);
                             mainHandler.sendMessage(mainMessage);
-
                             break;
                     }
 
@@ -143,6 +163,7 @@ public class ServerClient extends ServerConnection {
                 //서버가 제대로 열리지 않았을 떄 생기는 문제
             }
         }
+        closeSocket();
         Log.e("앙 기모띠", "ServerClient 스레드 종료");
     }
 }

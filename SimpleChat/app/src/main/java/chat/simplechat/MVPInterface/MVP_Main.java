@@ -19,6 +19,6 @@ public interface MVP_Main {
     }
     interface Model{
         void sendMessage(String msg,String id);
-        void logoutUser();
+        void logoutUser(String id);
     }
 }

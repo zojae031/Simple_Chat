@@ -22,8 +22,10 @@ public class SelectState {
 			return new Login();
 		case InsertText.SEND :
 			return new InsertText();
-			
+		case Logout.LOGOUT : 
+			return new Logout();
 		}
+		
 		
 			
 		return null;

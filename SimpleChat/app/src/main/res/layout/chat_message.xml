@@ -2,32 +2,76 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
-    android:layout_height="match_parent">
+    android:divider="@android:color/white"
+    android:dividerPadding="0dp"
+    android:orientation="vertical"
+    android:showDividers="none">
 
 
-    <TextView
-        android:id="@+id/chat_id"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="horizontal">
 
-    <TextView
+        <TextView
+            android:id="@+id/target_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="target_id" />
 
-        android:id="@+id/chat_text"
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="user_id" />
+    </LinearLayout>
 
+    <LinearLayout
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-        android:layout_marginLeft="20dp"
+        <TextView
 
-        android:gravity="left|center_vertical|center_horizontal"
+            android:id="@+id/target_msg"
 
-        android:text="Chat message"
+            android:layout_width="0dp"
 
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_height="match_parent"
+
+            android:layout_marginLeft="20dp"
+
+            android:layout_weight="1"
+
+            android:gravity="left|center_vertical|center_horizontal"
+
+            android:text="target_msg"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+
+            android:id="@+id/user_msg"
+
+            android:layout_width="0dp"
+
+            android:layout_height="match_parent"
+
+            android:layout_marginLeft="20dp"
+
+            android:layout_weight="1"
+
+            android:gravity="left|center_vertical|center_horizontal"
+
+            android:text="user_msg"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
 </LinearLayout>
 

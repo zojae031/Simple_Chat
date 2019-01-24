@@ -41,9 +41,9 @@ public class MainPresenter implements MVP_Main.Presenter {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle bundle = msg.getData();
-            String id = (String) bundle.get("id");
-            String text = (String)bundle.get("text");
-            if(id.replace("\"","").equals(userId)){
+            String id = ((String) bundle.get("id")).replace("\"","");
+            String text = ((String)bundle.get("text")).replace("\"","");;
+            if(id.equals(userId)){
                 Log.e("사용자 결과값",text);
                 list.add(new ChatVO(id,text));
                 adapter.notifyDataSetChanged();
@@ -62,7 +62,7 @@ public class MainPresenter implements MVP_Main.Presenter {
     }
     @Override
     public void setAdapter(ListView listView) {
-        adapter = new ChatAdapter((Context)view, R.layout.chat_message,list);
+        adapter = new ChatAdapter((Context)view, R.layout.chat_message,list,userId);
         listView.setAdapter(adapter);
     }
 
@@ -90,7 +90,7 @@ public class MainPresenter implements MVP_Main.Presenter {
 
     @Override
     public void logout() {
-        model.logoutUser();
+        model.logoutUser(userId);
     }
 
 

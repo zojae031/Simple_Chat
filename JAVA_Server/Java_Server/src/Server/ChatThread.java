@@ -2,10 +2,13 @@ package Server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.sql.SQLException;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -13,6 +16,7 @@ import com.google.gson.JsonParser;
 import DataBase.DataBaseConnector;
 import DataBase.InsertText;
 import DataBase.Login;
+import DataBase.Logout;
 import DataBase.SelectState;
 
 public class ChatThread extends Thread {
@@ -42,22 +46,33 @@ public class ChatThread extends Thread {
 
 				db = SelectState.getInstance().getState(data); // JSon 데이터 key 를 읽어서 해당하는 작업 반환 (State pattern)
 				Object ResultData = db.excute(data);
-				
-				switch(key) {
-				case Login.LOGIN :
+
+				switch (key) {
+				case Login.LOGIN:
 					writer.println(ResultData);// 로그인 결과
 					break;
-				case InsertText.SEND :
-					Clients.getInstance().sendClients(data); //채팅 결과 브로드캐스팅
+				case InsertText.SEND:
+					Clients.getInstance().sendClients(data); // 채팅 결과 브로드캐스팅
+					break;
+				case Logout.LOGOUT:
+					System.out.println("사용자 로그아웃 : " + ((JsonObject)ResultData).get("id"));
 					break;
 				}
-				
 
 				System.out.println(data);
 
 			}
 
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
+			;//사용자 로그아웃
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

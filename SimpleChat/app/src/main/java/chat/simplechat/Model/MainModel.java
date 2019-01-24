@@ -13,8 +13,8 @@ public class MainModel implements MVP_Main.Model {
     }
 
     @Override
-    public void logoutUser() {
-        ServerClient.getInstance().userLogout();
+    public void logoutUser(String id) {
+        ServerClient.getInstance().userLogout(id);
     }
 
 

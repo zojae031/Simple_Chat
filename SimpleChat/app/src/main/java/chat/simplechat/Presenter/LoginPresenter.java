@@ -11,6 +11,7 @@ import android.widget.EditText;
 import chat.simplechat.MVPInterface.MVP_login;
 import chat.simplechat.Model.LoginModel;
 import chat.simplechat.Model.ServerConnection.ServerClient;
+import chat.simplechat.Model.ServerConnection.ServerConnection;
 
 public class LoginPresenter implements MVP_login.Presenter {
     MVP_login.View view;
@@ -29,10 +30,10 @@ public class LoginPresenter implements MVP_login.Presenter {
                     Intent intent = new Intent();
                     Bundle bundle = msg.getData();
                     intent.putExtra("id",bundle.get("id").toString());
+                    ServerClient.getInstance().broadCastMessage();
                     view.login(intent);
                     break;
                 case ServerClient.LOGIN_FAIL:
-                    ServerClient.getInstance().userLogout();
                     view.error();
                     break;
             }
@@ -52,7 +53,17 @@ public class LoginPresenter implements MVP_login.Presenter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ServerClient.getInstance().setCallback(new ServerConnection.ConnectionCallback() {
+                    @Override
+                    public void timeout() {
+                        view.timeout();
+                    }
 
+                    @Override
+                    public void error() {
+                        view.error();
+                    }
+                });
                 model.clientLogin(id.getText().toString(),pw.getText().toString(),handler); //로그인 스레드 생성
 
             }

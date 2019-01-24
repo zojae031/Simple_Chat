@@ -17,6 +17,7 @@ public class LoginActivity extends AppCompatActivity implements MVP_login.View  
 
     MVP_login.Presenter presenter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +39,19 @@ public class LoginActivity extends AppCompatActivity implements MVP_login.View  
     }
 
     @Override
+    public void timeout() {
+        Toast.makeText(getApplicationContext(),"타임아웃",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void login(Intent intent) {
         intent.setClass(this,MainActivity.class);
         startActivity(intent);
 }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }

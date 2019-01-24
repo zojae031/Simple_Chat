@@ -9,6 +9,7 @@ public interface MVP_login {
     interface View{
         void login(Intent intent);
         void error();
+        void timeout();
     }
     interface Presenter{
         void setLoginButton(final Button button, final EditText id,final EditText pw);

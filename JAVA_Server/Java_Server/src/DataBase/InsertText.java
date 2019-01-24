@@ -13,7 +13,7 @@ import Server.Clients;
 
 public class InsertText extends DataBaseConnector {
 	public static final int SEND = 200;
-	
+
 	public static final String sql = "insert into chat values (?, ?)";
 	Time time;
 	PreparedStatement stat;
@@ -22,7 +22,7 @@ public class InsertText extends DataBaseConnector {
 	@Override
 	public Object excute(JsonObject data) throws SQLException {
 		super.connect();
-		
+
 		String id = data.get("id").toString().replace("\"", "");
 		String text = data.get("text").toString().replace("\"", "");
 //		String t= String.valueOf(time.getHours())+String.valueOf(time.getMinutes())+String.valueOf(time.getSeconds());
@@ -33,15 +33,14 @@ public class InsertText extends DataBaseConnector {
 		stat.executeUpdate();
 		res = stat.executeQuery();
 		/*
-		 * 여기는 insert만 하도록 수행하고 핸들러를 통해서 메인쪽으로 정보전달
-		 * 새로운 Listening 통신을 만들어 그쪽에서 핸들러로 전송을 받은 후 arrayList에 담긴 유저들에게 핸들러로 받은 데이터를 뿌려줌
+		 * 여기는 insert만 하도록 수행하고 핸들러를 통해서 메인쪽으로 정보전달 새로운 Listening 통신을 만들어 그쪽에서 핸들러로 전송을
+		 * 받은 후 arrayList에 담긴 유저들에게 핸들러로 받은 데이터를 뿌려줌
 		 */
 		JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty("key", Clients.BROAD_CAST);
 		jsonObject.addProperty("id", id);
 		jsonObject.addProperty("text", text);
-		
-		
+
 		super.closeConnection();
 		return null;
 	}
