@@ -1,10 +1,10 @@
 # Simple_Chat (Multi Server Chat)
 
 1. 개요
- - Server 와 통신하는 MVP 기반 프로젝트
+ - Socket Server 안드로이드 프로젝트
  
 2. 사용 플랫폼
- - 안드로이드 (Client) : MVP, SingleTon, Observer, ViewHolder
+ - 안드로이드 (Client) : SingleTon, Observer, ViewHolder
  - 자바 (Server) : Strategy, SingleTon
  - MariaDB (DataBase) : Insert, Select, Update
  
